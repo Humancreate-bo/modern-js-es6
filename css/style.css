@@ -1,0 +1,307 @@
+/*
+  Собственные стили сайта «Современный JavaScript (ES6+)».
+  Подключаются после Water.css и дополняют его.
+  Подход: mobile-first (сначала мобильная версия, потом медиазапросы).
+  Контрольные точки: 768px (планшеты) и 992px (десктопы).
+*/
+
+:root {
+  --accent: #f7df1e;
+  --accent-text: #222;
+}
+
+body {
+  max-width: 1140px;
+  padding: 0 15px;
+}
+
+/* ---------- Шапка ---------- */
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-bright);
+  font-size: 1.2em;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.header__logo:hover {
+  text-decoration: none;
+}
+
+.header__logo-img {
+  width: 40px;
+  height: 40px;
+}
+
+/* ---------- Бургер и меню ---------- */
+
+.burger {
+  margin: 0;
+  padding: 6px 14px;
+  font-size: 1.4em;
+  line-height: 1;
+}
+
+.nav {
+  display: none;
+  width: 100%;
+}
+
+.nav--open {
+  display: block;
+}
+
+.nav__list {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__item {
+  border-top: 1px solid var(--border);
+}
+
+.nav__link {
+  display: block;
+  padding: 10px 5px;
+}
+
+.nav__link--active {
+  color: var(--text-bright);
+  font-weight: bold;
+}
+
+/* ---------- Основная сетка ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 25px;
+  padding: 20px 0;
+}
+
+.content {
+  min-width: 0;
+}
+
+.content h1 {
+  margin-top: 0;
+}
+
+.lead {
+  font-size: 1.1em;
+}
+
+pre {
+  overflow-x: auto;
+}
+
+/* ---------- Сайдбар ---------- */
+
+.sidebar {
+  align-self: start;
+  padding: 15px 20px;
+  border-radius: 6px;
+  background: var(--background-alt);
+}
+
+.sidebar__block + .sidebar__block {
+  margin-top: 20px;
+}
+
+.sidebar__title {
+  margin: 0 0 10px;
+  font-size: 1.1em;
+}
+
+.sidebar__list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.sidebar__text {
+  margin: 0 0 10px;
+  font-size: 0.9em;
+}
+
+/* ---------- Подписка ---------- */
+
+.subscribe__input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.subscribe__btn {
+  width: 100%;
+  margin-right: 0;
+}
+
+.subscribe__result {
+  margin: 5px 0 0;
+  font-size: 0.9em;
+}
+
+/* ---------- Блоки контента ---------- */
+
+.tip {
+  margin: 20px 0;
+  padding: 10px 15px;
+  border-left: 4px solid var(--accent);
+  background: var(--background-alt);
+}
+
+.figure {
+  margin: 20px 0;
+}
+
+.figure__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.figure__caption {
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.video {
+  position: relative;
+  margin: 15px 0;
+  padding-top: 56.25%;
+}
+
+.video__frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.topics {
+  padding-left: 20px;
+}
+
+.topics__item {
+  margin-bottom: 8px;
+}
+
+/* ---------- Демо и формы ---------- */
+
+.demo {
+  padding: 15px;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+}
+
+.demo__output {
+  min-height: 1.5em;
+  font-weight: bold;
+}
+
+.form__field {
+  margin-bottom: 12px;
+}
+
+.form__field input[type="text"],
+.form__field input[type="email"],
+.form__field select,
+.form__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form__result {
+  font-weight: bold;
+}
+
+/* ---------- Подвал ---------- */
+
+.footer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer__title {
+  margin: 0 0 5px;
+  font-size: 1em;
+}
+
+.footer__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__text {
+  margin: 0;
+}
+
+/* ---------- Планшеты (от 768px) ---------- */
+
+@media (min-width: 768px) {
+  .burger {
+    display: none;
+  }
+
+  .nav {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 18px;
+    margin: 0;
+  }
+
+  .nav__item {
+    border-top: 0;
+  }
+
+  .nav__link {
+    padding: 4px 0;
+  }
+
+  .footer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---------- Десктопы (от 992px) ---------- */
+
+@media (min-width: 992px) {
+  .layout {
+    grid-template-columns: 1fr 280px;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 20px;
+  }
+}
