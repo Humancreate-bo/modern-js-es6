@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Синтаксис стрелочных функций в JavaScript, краткая запись и поведение this.">
+  <title>Стрелочные функции | Современный JavaScript</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="header__logo" href="index.html" title="На главную">
+      <img class="header__logo-img" src="img/logo.svg" alt="Логотип: JS ES6+" width="40" height="40">
+      <span>Современный JS</span>
+    </a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">☰</button>
+    <nav class="nav" id="main-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="index.html">Главная</a></li>
+          <li class="nav__item"><a class="nav__link" href="variables.html">let и const</a></li>
+          <li class="nav__item"><a class="nav__link nav__link--active" href="arrow-functions.html" aria-current="page">Стрелочные функции</a></li>
+          <li class="nav__item"><a class="nav__link" href="destructuring.html">Деструктуризация</a></li>
+          <li class="nav__item"><a class="nav__link" href="template-strings.html">Шаблонные строки</a></li>
+          <li class="nav__item"><a class="nav__link" href="classes.html">Классы</a></li>
+          <li class="nav__item"><a class="nav__link" href="async.html">Промисы и async</a></li>
+          <li class="nav__item"><a class="nav__link" href="modules.html">Модули</a></li>
+          <li class="nav__item"><a class="nav__link" href="es2020.html">ES2020+</a></li>
+          <li class="nav__item"><a class="nav__link" href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <h1>Стрелочные функции</h1>
+      <p>Стрелочные функции — это короткий способ записать функцию. Название пошло от символа <code>=&gt;</code>, похожего на стрелку. Это, наверное, самая заметная особенность современного кода на JavaScript.</p>
+
+      <section id="syntax">
+        <h2>Синтаксис</h2>
+        <p>Сравним обычную функцию и стрелочную, которые делают одно и то же:</p>
+        <pre><code>// обычная функция
+function sum(a, b) {
+  return a + b;
+}
+
+// стрелочная функция
+const sum2 = (a, b) =&gt; {
+  return a + b;
+};</code></pre>
+        <p>Слово <code>function</code> пропадает, а между параметрами и телом ставится стрелка. Функцию обычно сохраняют в переменную через <code>const</code>.</p>
+      </section>
+
+      <section id="short">
+        <h2>Сокращённая запись</h2>
+        <p>Если функция состоит из одного выражения, фигурные скобки и <code>return</code> можно убрать — результат вернётся автоматически. Если параметр один, можно убрать и круглые скобки.</p>
+        <pre><code>const sum = (a, b) =&gt; a + b;
+const double = n =&gt; n * 2;
+const sayHi = () =&gt; console.log('Привет!');
+
+console.log(sum(2, 3)); // 5
+console.log(double(4)); // 8</code></pre>
+        <p>Есть одна ловушка: если нужно вернуть объект, его надо обернуть в круглые скобки, иначе фигурные скобки будут считаться телом функции.</p>
+        <pre><code>const makeUser = name =&gt; ({ name: name, active: true });</code></pre>
+      </section>
+
+      <section id="arrays">
+        <h2>Стрелки и методы массивов</h2>
+        <p>Больше всего стрелочные функции пригождаются как колбэки для методов массивов <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code>. Код получается коротким и читается почти как обычный текст.</p>
+        <pre><code>const prices = [100, 250, 40, 900];
+
+const withTax = prices.map(p =&gt; p * 1.2);
+const cheap = prices.filter(p =&gt; p &lt; 200);
+const total = prices.reduce((sum, p) =&gt; sum + p, 0);
+
+console.log(cheap); // [100, 40]
+console.log(total); // 1290</code></pre>
+      </section>
+
+      <section id="this">
+        <h2>Особенность this</h2>
+        <p>Главное отличие стрелочных функций не в длине записи. У них нет своего <code>this</code> — они берут его из того места, где были созданы. Раньше из-за этого приходилось писать <code>var self = this</code> или использовать <code>bind</code>.</p>
+        <pre><code>const timer = {
+  seconds: 0,
+  start() {
+    setInterval(() =&gt; {
+      this.seconds++; // this — это объект timer
+      console.log(this.seconds);
+    }, 1000);
+  }
+};
+
+timer.start(); // 1, 2, 3 ...</code></pre>
+        <p>Если бы внутри <code>setInterval</code> была обычная функция, <code>this</code> указывал бы не на <code>timer</code>, и счётчик бы не работал.</p>
+      </section>
+
+      <section id="limits">
+        <h2>Когда стрелки не подходят</h2>
+        <ul>
+          <li>Как методы объекта, если внутри нужен <code>this</code> этого объекта.</li>
+          <li>Как конструктор: стрелочную функцию нельзя вызвать через <code>new</code>.</li>
+          <li>Когда нужен объект <code>arguments</code> — у стрелок его нет (вместо него можно использовать rest-параметры <code>...args</code>).</li>
+          <li>Как обработчик события, если внутри используется <code>this</code> для обращения к элементу.</li>
+        </ul>
+        <p class="tip">В остальных случаях стрелочные функции можно смело использовать — это нормальный современный стиль.</p>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">На этой странице</h2>
+        <ul class="sidebar__list">
+          <li><a href="#syntax">Синтаксис</a></li>
+          <li><a href="#short">Сокращённая запись</a></li>
+          <li><a href="#arrays">Стрелки и методы массивов</a></li>
+          <li><a href="#this">Особенность this</a></li>
+          <li><a href="#limits">Когда стрелки не подходят</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Почитать ещё</h2>
+        <ul class="sidebar__list">
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank" rel="noopener">MDN: стрелочные функции</a></li>
+          <li><a href="https://learn.javascript.ru/arrow-functions-basics" target="_blank" rel="noopener">learn.javascript.ru: стрелочные функции</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Подписка</h2>
+        <p class="sidebar__text">Раз в неделю присылаем одну полезную фишку JavaScript.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="subscribe-email">E-mail</label>
+          <input class="subscribe__input" type="email" id="subscribe-email" name="email" placeholder="you@mail.ru" required>
+          <button class="subscribe__btn" type="submit">Подписаться</button>
+          <p class="subscribe__result" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <h2 class="footer__title">О проекте</h2>
+      <p class="footer__text">&copy; 2026 Тарасов Евгений, группа 141-ПМо.<br>Учебный сайт, сделан на Water.css.</p>
+    </div>
+    <div>
+      <h2 class="footer__title">Контакты</h2>
+      <ul class="footer__list">
+        <li><a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+        <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">Репозиторий на GitHub</a></li>
+        <li><a href="contacts.html">Форма обратной связи</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">Полезные ссылки</h2>
+      <ul class="footer__list">
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">learn.javascript.ru</a></li>
+        <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
