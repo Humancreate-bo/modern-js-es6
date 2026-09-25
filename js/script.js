@@ -12,3 +12,16 @@ if (burger && nav) {
     burger.textContent = isOpen ? '✕' : '☰';
   });
 }
+
+// ---------- Подписка в сайдбаре ----------
+const subscribeForm = document.querySelector('.subscribe');
+
+if (subscribeForm) {
+  subscribeForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const email = subscribeForm.querySelector('.subscribe__input').value.trim();
+    const result = subscribeForm.querySelector('.subscribe__result');
+    result.textContent = `Готово! Адрес ${email} добавлен в список (учебная форма, письма не придут).`;
+    subscribeForm.reset();
+  });
+}

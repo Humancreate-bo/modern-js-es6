@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Учебный сайт о возможностях современного JavaScript: let и const, стрелочные функции, классы, промисы, модули и другое.">
+  <title>Главная | Современный JavaScript</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="header__logo" href="index.html" title="На главную">
+      <img class="header__logo-img" src="img/logo.svg" alt="Логотип: JS ES6+" width="40" height="40">
+      <span>Современный JS</span>
+    </a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">☰</button>
+    <nav class="nav" id="main-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link nav__link--active" href="index.html" aria-current="page">Главная</a></li>
+          <li class="nav__item"><a class="nav__link" href="variables.html">let и const</a></li>
+          <li class="nav__item"><a class="nav__link" href="arrow-functions.html">Стрелочные функции</a></li>
+          <li class="nav__item"><a class="nav__link" href="destructuring.html">Деструктуризация</a></li>
+          <li class="nav__item"><a class="nav__link" href="template-strings.html">Шаблонные строки</a></li>
+          <li class="nav__item"><a class="nav__link" href="classes.html">Классы</a></li>
+          <li class="nav__item"><a class="nav__link" href="async.html">Промисы и async</a></li>
+          <li class="nav__item"><a class="nav__link" href="modules.html">Модули</a></li>
+          <li class="nav__item"><a class="nav__link" href="es2020.html">ES2020+</a></li>
+          <li class="nav__item"><a class="nav__link" href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <h1>Современный JavaScript (ES6+)</h1>
+      <p>Этот сайт — небольшой справочник по современному JavaScript. Здесь собраны основные возможности, которые появились в языке начиная со стандарта ES6 (2015 год) и позже. Каждая тема разобрана на отдельной странице с простыми примерами кода.</p>
+      <figure class="figure">
+        <picture>
+          <source type="image/webp" srcset="img/hero-480.webp 480w, img/hero-800.webp 800w, img/hero-1200.webp 1200w" sizes="(min-width: 992px) 800px, 100vw">
+          <img class="figure__img" src="img/hero-800.jpg" srcset="img/hero-480.jpg 480w, img/hero-800.jpg 800w, img/hero-1200.jpg 1200w" sizes="(min-width: 992px) 800px, 100vw" alt="Пример кода на JavaScript с деструктуризацией, стрелочной функцией и шаблонной строкой" title="Пример современного кода на JavaScript" width="1200" height="600">
+        </picture>
+        <figcaption class="figure__caption">Так выглядит код на ES6+: коротко и понятно</figcaption>
+      </figure>
+
+      <section id="about">
+        <h2>Зачем нужен этот сайт</h2>
+        <p>Когда я начинал изучать JavaScript, в разных учебниках и на форумах код был написан по-разному: где-то <code>var</code> и <code>function</code>, где-то <code>const</code> и стрелки <code>=&gt;</code>. Из-за этого было сложно понять, как правильно писать сейчас. Поэтому я решил собрать в одном месте именно современный синтаксис и объяснить его своими словами.</p>
+        <p>Сайт рассчитан на тех, кто уже знает основы: переменные, условия, циклы и функции. Если вы только начинаете, лучше сначала пройти базовый курс, а потом вернуться сюда.</p>
+      </section>
+
+      <section id="history">
+        <h2>Немного истории</h2>
+        <p>Официальное название стандарта языка — ECMAScript (сокращённо ES). Долгое время язык почти не менялся: версия ES5 вышла в 2009 году, а следующая большая версия ES6 (она же ES2015) — только через шесть лет. Зато ES6 принёс очень много нового. После этого комитет TC39 решил выпускать новую версию каждый год, поэтому сейчас изменения появляются небольшими порциями.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Версии ECMAScript и главные нововведения</caption>
+            <thead>
+              <tr><th scope="col">Версия</th><th scope="col">Год</th><th scope="col">Что появилось</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">ES5</th><td>2009</td><td>Строгий режим <code>'use strict'</code>, методы массивов <code>forEach</code>, <code>map</code>, <code>filter</code>, JSON</td></tr>
+              <tr><th scope="row">ES6 (ES2015)</th><td>2015</td><td><code>let</code>/<code>const</code>, стрелочные функции, классы, промисы, модули, деструктуризация, шаблонные строки</td></tr>
+              <tr><th scope="row">ES2016</th><td>2016</td><td>Оператор возведения в степень <code>**</code>, метод <code>includes()</code> у массивов</td></tr>
+              <tr><th scope="row">ES2017</th><td>2017</td><td><code>async</code>/<code>await</code>, <code>Object.entries()</code> и <code>Object.values()</code></td></tr>
+              <tr><th scope="row">ES2018</th><td>2018</td><td>Spread и rest для объектов, <code>Promise.finally()</code></td></tr>
+              <tr><th scope="row">ES2019</th><td>2019</td><td><code>Array.flat()</code>, <code>Object.fromEntries()</code></td></tr>
+              <tr><th scope="row">ES2020</th><td>2020</td><td>Опциональная цепочка <code>?.</code>, оператор <code>??</code>, тип <code>BigInt</code></td></tr>
+              <tr><th scope="row">ES2022</th><td>2022</td><td>Приватные поля классов <code>#</code>, метод <code>at()</code>, <code>await</code> на верхнем уровне модуля</td></tr>
+              <tr><th scope="row">ES2023</th><td>2023</td><td><code>toSorted()</code>, <code>toReversed()</code>, <code>findLast()</code> — методы без изменения исходного массива</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="topics">
+        <h2>Что есть на сайте</h2>
+        <ul class="topics">
+          <li class="topics__item"><a href="variables.html">let и const</a> — новые способы объявлять переменные и почему <code>var</code> лучше не использовать.</li>
+          <li class="topics__item"><a href="arrow-functions.html">Стрелочные функции</a> — короткая запись функций и особенности <code>this</code>.</li>
+          <li class="topics__item"><a href="destructuring.html">Деструктуризация</a> — как быстро достать значения из массива или объекта, а также операторы spread и rest.</li>
+          <li class="topics__item"><a href="template-strings.html">Шаблонные строки</a> — строки с подстановкой переменных и переносами, есть живой пример.</li>
+          <li class="topics__item"><a href="classes.html">Классы</a> — объектно-ориентированное программирование в JavaScript.</li>
+          <li class="topics__item"><a href="async.html">Промисы и async/await</a> — как работать с асинхронным кодом.</li>
+          <li class="topics__item"><a href="modules.html">Модули</a> — как разбить программу на файлы с помощью <code>import</code> и <code>export</code>.</li>
+          <li class="topics__item"><a href="es2020.html">ES2020+</a> — полезные мелочи из последних версий стандарта.</li>
+          <li class="topics__item"><a href="contacts.html">Контакты</a> — форма обратной связи и список источников.</li>
+        </ul>
+      </section>
+
+      <section id="video">
+        <h2>Видео для начала</h2>
+        <p>Если удобнее смотреть, а не читать, вот видео с обзором возможностей ES5 и ES6. Оно на английском, но код понятен и без перевода.</p>
+        <div class="video">
+          <iframe class="video__frame" src="https://rutube.ru/play/embed/ddce302bc66111054c9d6faa63c10c81" title="Видео: JavaScript ES5 и ES6 для начинающих" allow="clipboard-write; autoplay" allowfullscreen></iframe>
+        </div>
+        <p>Если видео не загрузилось, его можно открыть <a href="https://rutube.ru/video/ddce302bc66111054c9d6faa63c10c81/" target="_blank" rel="noopener">на RuTube</a>.</p>
+      </section>
+
+      <section id="support">
+        <h2>Где это работает</h2>
+        <p>Все возможности, описанные на сайте, поддерживаются в последних версиях Chrome, Firefox, Safari и Edge, а также в Node.js. Проверить поддержку конкретной функции можно на сайте <a href="https://caniuse.com/" target="_blank" rel="noopener">Can I use</a>. Для очень старых браузеров код раньше прогоняли через транспилятор Babel, но сейчас это нужно всё реже.</p>
+        <p class="tip">Совет: все примеры с сайта можно проверить прямо в браузере. Откройте инструменты разработчика (клавиша F12), перейдите на вкладку Console и вставьте код.</p>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">На этой странице</h2>
+        <ul class="sidebar__list">
+          <li><a href="#about">Зачем нужен этот сайт</a></li>
+          <li><a href="#history">Немного истории</a></li>
+          <li><a href="#topics">Что есть на сайте</a></li>
+          <li><a href="#video">Видео для начала</a></li>
+          <li><a href="#support">Где это работает</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Почитать ещё</h2>
+        <ul class="sidebar__list">
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+          <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">Современный учебник JavaScript</a></li>
+          <li><a href="https://caniuse.com/" target="_blank" rel="noopener">Can I use</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Подписка</h2>
+        <p class="sidebar__text">Раз в неделю присылаем одну полезную фишку JavaScript.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="subscribe-email">E-mail</label>
+          <input class="subscribe__input" type="email" id="subscribe-email" name="email" placeholder="you@mail.ru" required>
+          <button class="subscribe__btn" type="submit">Подписаться</button>
+          <p class="subscribe__result" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <h2 class="footer__title">О проекте</h2>
+      <p class="footer__text">&copy; 2026 Тарасов Евгений, группа 141-ПМо.<br>Учебный сайт, сделан на Water.css.</p>
+    </div>
+    <div>
+      <h2 class="footer__title">Контакты</h2>
+      <ul class="footer__list">
+        <li><a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+        <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">Репозиторий на GitHub</a></li>
+        <li><a href="contacts.html">Форма обратной связи</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">Полезные ссылки</h2>
+      <ul class="footer__list">
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">learn.javascript.ru</a></li>
+        <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
