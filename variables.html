@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Чем let и const отличаются от var, блочная область видимости и что выбрать.">
+  <title>let и const | Современный JavaScript</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="header__logo" href="index.html" title="На главную">
+      <img class="header__logo-img" src="img/logo.svg" alt="Логотип: JS ES6+" width="40" height="40">
+      <span>Современный JS</span>
+    </a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">☰</button>
+    <nav class="nav" id="main-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="index.html">Главная</a></li>
+          <li class="nav__item"><a class="nav__link nav__link--active" href="variables.html" aria-current="page">let и const</a></li>
+          <li class="nav__item"><a class="nav__link" href="arrow-functions.html">Стрелочные функции</a></li>
+          <li class="nav__item"><a class="nav__link" href="destructuring.html">Деструктуризация</a></li>
+          <li class="nav__item"><a class="nav__link" href="template-strings.html">Шаблонные строки</a></li>
+          <li class="nav__item"><a class="nav__link" href="classes.html">Классы</a></li>
+          <li class="nav__item"><a class="nav__link" href="async.html">Промисы и async</a></li>
+          <li class="nav__item"><a class="nav__link" href="modules.html">Модули</a></li>
+          <li class="nav__item"><a class="nav__link" href="es2020.html">ES2020+</a></li>
+          <li class="nav__item"><a class="nav__link" href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <h1>Переменные: let и const</h1>
+      <p>До ES6 в JavaScript был только один способ объявить переменную — ключевое слово <code>var</code>. В ES6 добавили <code>let</code> и <code>const</code>, и сейчас в новом коде <code>var</code> почти не встречается. Разберёмся, почему.</p>
+
+      <section id="var-problems">
+        <h2>Чем был плох var</h2>
+        <p>У <code>var</code> нет блочной области видимости. Переменная, объявленная внутри <code>if</code> или цикла, видна и снаружи. Кроме того, <code>var</code> можно объявить повторно, и ошибки не будет:</p>
+        <pre><code>if (true) {
+  var message = 'Привет';
+}
+console.log(message); // 'Привет' — переменная «вылезла» из блока
+
+var count = 1;
+var count = 2; // никакой ошибки, старое значение просто потерялось</code></pre>
+        <p>Ещё одна странность — «поднятие» (hoisting). Переменную <code>var</code> можно использовать до объявления, и вместо ошибки получится <code>undefined</code>. В большой программе такие вещи приводят к трудноуловимым багам.</p>
+      </section>
+
+      <section id="let">
+        <h2>Ключевое слово let</h2>
+        <p><code>let</code> объявляет переменную, которая существует только внутри блока <code>{ ... }</code>, где она создана. Повторно объявить её в том же блоке нельзя.</p>
+        <pre><code>let score = 10;
+score = 15; // менять значение можно
+
+if (score &gt; 12) {
+  let bonus = 5;
+  console.log(score + bonus); // 20
+}
+console.log(bonus); // ReferenceError: bonus is not defined</code></pre>
+        <p>Особенно удобно <code>let</code> ведёт себя в циклах: на каждой итерации создаётся своя переменная. Классическая задача с <code>setTimeout</code> внутри цикла с <code>let</code> работает так, как ожидаешь.</p>
+        <pre><code>for (let i = 1; i &lt;= 3; i++) {
+  setTimeout(() =&gt; console.log(i), 100);
+}
+// выведет 1, 2, 3 (а с var вывело бы 3 раза число 4)</code></pre>
+      </section>
+
+      <section id="const">
+        <h2>Ключевое слово const</h2>
+        <p><code>const</code> — это переменная, которую нельзя переприсвоить. Значение задаётся сразу при объявлении.</p>
+        <pre><code>const PI = 3.14;
+PI = 3; // TypeError: Assignment to constant variable.</code></pre>
+        <p>Важный момент: <code>const</code> запрещает менять саму переменную, но не содержимое объекта или массива. Добавлять элементы в массив, объявленный через <code>const</code>, можно.</p>
+        <pre><code>const fruits = ['яблоко'];
+fruits.push('груша'); // так можно
+console.log(fruits); // ['яблоко', 'груша']
+
+fruits = []; // а так нельзя — ошибка</code></pre>
+      </section>
+
+      <section id="compare">
+        <h2>Сравнение var, let и const</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Отличия способов объявления переменных</caption>
+            <thead>
+              <tr><th scope="col">Свойство</th><th scope="col">var</th><th scope="col">let</th><th scope="col">const</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Область видимости</th><td>Функция</td><td>Блок</td><td>Блок</td></tr>
+              <tr><th scope="row">Повторное объявление</th><td>Можно</td><td>Нельзя</td><td>Нельзя</td></tr>
+              <tr><th scope="row">Переприсваивание</th><td>Можно</td><td>Можно</td><td>Нельзя</td></tr>
+              <tr><th scope="row">Доступ до объявления</th><td><code>undefined</code></td><td>Ошибка</td><td>Ошибка</td></tr>
+              <tr><th scope="row">Появилось в</th><td>ES1</td><td>ES6</td><td>ES6</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="advice">
+        <h2>Что использовать</h2>
+        <p>Общее правило, которого придерживается большинство разработчиков:</p>
+        <ol>
+          <li>По умолчанию пишите <code>const</code>.</li>
+          <li>Если значение переменной нужно менять (счётчик, накопитель в цикле), используйте <code>let</code>.</li>
+          <li><code>var</code> в новом коде не используйте совсем.</li>
+        </ol>
+        <p class="tip">Такой подход сразу показывает читателю кода, какие значения будут меняться, а какие нет. Линтер ESLint даже умеет подсказывать, где <code>let</code> можно заменить на <code>const</code>.</p>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">На этой странице</h2>
+        <ul class="sidebar__list">
+          <li><a href="#var-problems">Чем был плох var</a></li>
+          <li><a href="#let">Ключевое слово let</a></li>
+          <li><a href="#const">Ключевое слово const</a></li>
+          <li><a href="#compare">Сравнение var, let и const</a></li>
+          <li><a href="#advice">Что использовать</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Почитать ещё</h2>
+        <ul class="sidebar__list">
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/let" target="_blank" rel="noopener">MDN: let</a></li>
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/const" target="_blank" rel="noopener">MDN: const</a></li>
+          <li><a href="https://learn.javascript.ru/variables" target="_blank" rel="noopener">learn.javascript.ru: переменные</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Подписка</h2>
+        <p class="sidebar__text">Раз в неделю присылаем одну полезную фишку JavaScript.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="subscribe-email">E-mail</label>
+          <input class="subscribe__input" type="email" id="subscribe-email" name="email" placeholder="you@mail.ru" required>
+          <button class="subscribe__btn" type="submit">Подписаться</button>
+          <p class="subscribe__result" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <h2 class="footer__title">О проекте</h2>
+      <p class="footer__text">&copy; 2026 Тарасов Евгений, группа 141-ПМо.<br>Учебный сайт, сделан на Water.css.</p>
+    </div>
+    <div>
+      <h2 class="footer__title">Контакты</h2>
+      <ul class="footer__list">
+        <li><a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+        <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">Репозиторий на GitHub</a></li>
+        <li><a href="contacts.html">Форма обратной связи</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">Полезные ссылки</h2>
+      <ul class="footer__list">
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">learn.javascript.ru</a></li>
+        <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
