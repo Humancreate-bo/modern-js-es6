@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Классы в JavaScript: конструктор, методы, наследование через extends, статические и приватные поля.">
+  <title>Классы | Современный JavaScript</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="header__logo" href="index.html" title="На главную">
+      <img class="header__logo-img" src="img/logo.svg" alt="Логотип: JS ES6+" width="40" height="40">
+      <span>Современный JS</span>
+    </a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">☰</button>
+    <nav class="nav" id="main-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="index.html">Главная</a></li>
+          <li class="nav__item"><a class="nav__link" href="variables.html">let и const</a></li>
+          <li class="nav__item"><a class="nav__link" href="arrow-functions.html">Стрелочные функции</a></li>
+          <li class="nav__item"><a class="nav__link" href="destructuring.html">Деструктуризация</a></li>
+          <li class="nav__item"><a class="nav__link" href="template-strings.html">Шаблонные строки</a></li>
+          <li class="nav__item"><a class="nav__link nav__link--active" href="classes.html" aria-current="page">Классы</a></li>
+          <li class="nav__item"><a class="nav__link" href="async.html">Промисы и async</a></li>
+          <li class="nav__item"><a class="nav__link" href="modules.html">Модули</a></li>
+          <li class="nav__item"><a class="nav__link" href="es2020.html">ES2020+</a></li>
+          <li class="nav__item"><a class="nav__link" href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <h1>Классы</h1>
+      <p>В ES6 появился синтаксис классов. Внутри JavaScript по-прежнему работает на прототипах, но писать объектно-ориентированный код стало намного проще и привычнее для тех, кто знает Java, C# или Python.</p>
+
+      <section id="before">
+        <h2>Как было раньше</h2>
+        <p>До ES6 «класс» делали через функцию-конструктор, а методы добавляли в прототип:</p>
+        <pre><code>function User(name) {
+  this.name = name;
+}
+User.prototype.sayHi = function () {
+  console.log('Привет, я ' + this.name);
+};
+
+var u = new User('Петя');
+u.sayHi();</code></pre>
+        <p>Код рабочий, но выглядит запутанно, особенно когда появляется наследование.</p>
+      </section>
+
+      <section id="class">
+        <h2>Объявление класса</h2>
+        <p>Тот же пример с классом. Метод <code>constructor</code> вызывается автоматически при создании объекта через <code>new</code>.</p>
+        <pre><code>class User {
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayHi() {
+    console.log(`Привет, я ${this.name}`);
+  }
+}
+
+const u = new User('Петя');
+u.sayHi(); // Привет, я Петя</code></pre>
+        <p>Также в классе можно объявить геттеры и сеттеры — методы, которые выглядят снаружи как обычные свойства:</p>
+        <pre><code>class Rectangle {
+  constructor(w, h) {
+    this.w = w;
+    this.h = h;
+  }
+  get area() {
+    return this.w * this.h;
+  }
+}
+
+console.log(new Rectangle(3, 4).area); // 12</code></pre>
+      </section>
+
+      <section id="extends">
+        <h2>Наследование</h2>
+        <p>Один класс может расширять другой с помощью <code>extends</code>. Дочерний класс получает все методы родителя и может добавить свои или переопределить существующие. Чтобы вызвать конструктор или метод родителя, используется <code>super</code>.</p>
+        <figure class="figure">
+          <picture>
+            <source type="image/webp" srcset="img/classes-480.webp 480w, img/classes-800.webp 800w, img/classes-1200.webp 1200w" sizes="(min-width: 992px) 800px, 100vw">
+            <img class="figure__img" src="img/classes-800.jpg" srcset="img/classes-480.jpg 480w, img/classes-800.jpg 800w, img/classes-1200.jpg 1200w" sizes="(min-width: 992px) 800px, 100vw" alt="Схема наследования: классы Dog и Cat расширяют класс Animal" title="Схема наследования классов" width="1200" height="600" loading="lazy">
+          </picture>
+          <figcaption class="figure__caption">Dog и Cat наследуют свойства и методы Animal</figcaption>
+        </figure>
+        <pre><code>class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  speak() {
+    console.log(`${this.name} издаёт звук`);
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    super.speak();
+    console.log(`${this.name} лает: Гав!`);
+  }
+}
+
+new Dog('Шарик').speak();
+// Шарик издаёт звук
+// Шарик лает: Гав!</code></pre>
+      </section>
+
+      <section id="static">
+        <h2>Статические методы</h2>
+        <p>Статический метод принадлежит самому классу, а не объектам. Его вызывают через имя класса. Обычно так делают вспомогательные функции.</p>
+        <pre><code>class MathHelper {
+  static average(...nums) {
+    return nums.reduce((a, b) =&gt; a + b, 0) / nums.length;
+  }
+}
+
+console.log(MathHelper.average(4, 5, 6)); // 5</code></pre>
+      </section>
+
+      <section id="private">
+        <h2>Приватные поля</h2>
+        <p>С ES2022 в классах можно объявлять приватные поля. Их имя начинается с <code>#</code>, и обратиться к ним снаружи класса нельзя — будет синтаксическая ошибка.</p>
+        <pre><code>class BankAccount {
+  #balance = 0;
+
+  deposit(sum) {
+    if (sum &gt; 0) this.#balance += sum;
+  }
+
+  get balance() {
+    return this.#balance;
+  }
+}
+
+const acc = new BankAccount();
+acc.deposit(1000);
+console.log(acc.balance);  // 1000
+// console.log(acc.#balance); — ошибка</code></pre>
+        <p class="tip">Раньше «приватность» обозначали подчёркиванием <code>_balance</code>, но это была только договорённость между программистами — поле всё равно было доступно.</p>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">На этой странице</h2>
+        <ul class="sidebar__list">
+          <li><a href="#before">Как было раньше</a></li>
+          <li><a href="#class">Объявление класса</a></li>
+          <li><a href="#extends">Наследование</a></li>
+          <li><a href="#static">Статические методы</a></li>
+          <li><a href="#private">Приватные поля</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Почитать ещё</h2>
+        <ul class="sidebar__list">
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Classes" target="_blank" rel="noopener">MDN: классы</a></li>
+          <li><a href="https://learn.javascript.ru/class" target="_blank" rel="noopener">learn.javascript.ru: классы</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Подписка</h2>
+        <p class="sidebar__text">Раз в неделю присылаем одну полезную фишку JavaScript.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="subscribe-email">E-mail</label>
+          <input class="subscribe__input" type="email" id="subscribe-email" name="email" placeholder="you@mail.ru" required>
+          <button class="subscribe__btn" type="submit">Подписаться</button>
+          <p class="subscribe__result" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <h2 class="footer__title">О проекте</h2>
+      <p class="footer__text">&copy; 2026 Тарасов Евгений, группа 141-ПМо.<br>Учебный сайт, сделан на Water.css.</p>
+    </div>
+    <div>
+      <h2 class="footer__title">Контакты</h2>
+      <ul class="footer__list">
+        <li><a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+        <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">Репозиторий на GitHub</a></li>
+        <li><a href="contacts.html">Форма обратной связи</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">Полезные ссылки</h2>
+      <ul class="footer__list">
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">learn.javascript.ru</a></li>
+        <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
