@@ -25,3 +25,15 @@ if (subscribeForm) {
     subscribeForm.reset();
   });
 }
+
+// ---------- Демо шаблонных строк ----------
+const demoButton = document.querySelector('#demo-btn');
+
+if (demoButton) {
+  demoButton.addEventListener('click', () => {
+    const name = document.querySelector('#demo-name').value.trim() || 'гость';
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? 'Доброе утро' : hour < 18 ? 'Добрый день' : 'Добрый вечер';
+    document.querySelector('#demo-output').textContent = `${greeting}, ${name}! Сейчас ${hour} ч.`;
+  });
+}

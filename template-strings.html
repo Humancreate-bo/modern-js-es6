@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Шаблонные строки (template literals) в JavaScript: подстановка выражений, многострочный текст, тегированные шаблоны.">
+  <title>Шаблонные строки | Современный JavaScript</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="header__logo" href="index.html" title="На главную">
+      <img class="header__logo-img" src="img/logo.svg" alt="Логотип: JS ES6+" width="40" height="40">
+      <span>Современный JS</span>
+    </a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">☰</button>
+    <nav class="nav" id="main-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="index.html">Главная</a></li>
+          <li class="nav__item"><a class="nav__link" href="variables.html">let и const</a></li>
+          <li class="nav__item"><a class="nav__link" href="arrow-functions.html">Стрелочные функции</a></li>
+          <li class="nav__item"><a class="nav__link" href="destructuring.html">Деструктуризация</a></li>
+          <li class="nav__item"><a class="nav__link nav__link--active" href="template-strings.html" aria-current="page">Шаблонные строки</a></li>
+          <li class="nav__item"><a class="nav__link" href="classes.html">Классы</a></li>
+          <li class="nav__item"><a class="nav__link" href="async.html">Промисы и async</a></li>
+          <li class="nav__item"><a class="nav__link" href="modules.html">Модули</a></li>
+          <li class="nav__item"><a class="nav__link" href="es2020.html">ES2020+</a></li>
+          <li class="nav__item"><a class="nav__link" href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <h1>Шаблонные строки</h1>
+      <p>Шаблонные строки записываются не в кавычках, а в обратных апострофах <code>`...`</code> (клавиша с буквой «Ё»). Они позволяют вставлять в строку переменные и писать текст на несколько строк.</p>
+
+      <section id="syntax">
+        <h2>Подстановка значений</h2>
+        <p>Раньше строки собирали через плюс, и в длинных выражениях легко было запутаться в кавычках и пробелах:</p>
+        <pre><code>const name = 'Анна';
+const age = 19;
+
+// старый способ
+const text1 = 'Меня зовут ' + name + ', мне ' + age + ' лет.';
+
+// шаблонная строка
+const text2 = `Меня зовут ${name}, мне ${age} лет.`;</code></pre>
+        <p>Внутри <code>${...}</code> можно писать не только имя переменной, а любое выражение: арифметику, вызов функции, тернарный оператор.</p>
+        <pre><code>const price = 500;
+const count = 3;
+console.log(`Итого: ${price * count} руб.`); // Итого: 1500 руб.
+console.log(`Скидка ${count &gt;= 3 ? 'есть' : 'нет'}`); // Скидка есть</code></pre>
+      </section>
+
+      <section id="multiline">
+        <h2>Многострочный текст</h2>
+        <p>В обычных кавычках перенос строки приходилось писать как <code>\n</code>. В шаблонных строках можно просто нажать Enter. Это удобно, например, для генерации HTML-разметки:</p>
+        <pre><code>const product = { title: 'Ноутбук', price: 55000 };
+
+const card = `
+  &lt;div class="card"&gt;
+    &lt;h3&gt;${product.title}&lt;/h3&gt;
+    &lt;p&gt;Цена: ${product.price} руб.&lt;/p&gt;
+  &lt;/div&gt;
+`;
+
+document.body.insertAdjacentHTML('beforeend', card);</code></pre>
+        <p class="tip">Осторожно: если вставлять в HTML то, что ввёл пользователь, можно получить XSS-уязвимость. Для текста от пользователя лучше использовать <code>textContent</code>.</p>
+      </section>
+
+      <section id="tagged">
+        <h2>Тегированные шаблоны</h2>
+        <p>Это более продвинутая возможность. Перед шаблонной строкой можно написать имя функции, и она получит части строки и подставленные значения отдельно. Так работают, например, некоторые библиотеки для стилей и SQL-запросов.</p>
+        <pre><code>function highlight(strings, ...values) {
+  return strings.reduce((result, str, i) =&gt;
+    result + str + (values[i] !== undefined ? `[${values[i]}]` : ''), '');
+}
+
+const user = 'Иван';
+console.log(highlight`Пользователь ${user} вошёл`);
+// Пользователь [Иван] вошёл</code></pre>
+      </section>
+
+      <section id="demo">
+        <h2>Попробуйте сами</h2>
+        <p>Введите имя и нажмите кнопку. Приветствие собирается с помощью шаблонной строки и зависит от текущего времени.</p>
+        <div class="demo">
+          <label for="demo-name">Ваше имя</label>
+          <input type="text" id="demo-name" placeholder="Например, Саша">
+          <button type="button" id="demo-btn">Поздороваться</button>
+          <p class="demo__output" id="demo-output" aria-live="polite"></p>
+        </div>
+        <p>Код, который выполняется при нажатии:</p>
+        <pre><code>const greeting = hour &lt; 12 ? 'Доброе утро' : hour &lt; 18 ? 'Добрый день' : 'Добрый вечер';
+output.textContent = `${greeting}, ${name}! Сейчас ${hour} ч.`;</code></pre>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">На этой странице</h2>
+        <ul class="sidebar__list">
+          <li><a href="#syntax">Подстановка значений</a></li>
+          <li><a href="#multiline">Многострочный текст</a></li>
+          <li><a href="#tagged">Тегированные шаблоны</a></li>
+          <li><a href="#demo">Попробуйте сами</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Почитать ещё</h2>
+        <ul class="sidebar__list">
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Template_literals" target="_blank" rel="noopener">MDN: шаблонные строки</a></li>
+          <li><a href="https://learn.javascript.ru/string" target="_blank" rel="noopener">learn.javascript.ru: строки</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Подписка</h2>
+        <p class="sidebar__text">Раз в неделю присылаем одну полезную фишку JavaScript.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="subscribe-email">E-mail</label>
+          <input class="subscribe__input" type="email" id="subscribe-email" name="email" placeholder="you@mail.ru" required>
+          <button class="subscribe__btn" type="submit">Подписаться</button>
+          <p class="subscribe__result" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <h2 class="footer__title">О проекте</h2>
+      <p class="footer__text">&copy; 2026 Тарасов Евгений, группа 141-ПМо.<br>Учебный сайт, сделан на Water.css.</p>
+    </div>
+    <div>
+      <h2 class="footer__title">Контакты</h2>
+      <ul class="footer__list">
+        <li><a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+        <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">Репозиторий на GitHub</a></li>
+        <li><a href="contacts.html">Форма обратной связи</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">Полезные ссылки</h2>
+      <ul class="footer__list">
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">learn.javascript.ru</a></li>
+        <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
