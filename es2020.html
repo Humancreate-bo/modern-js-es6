@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Опциональная цепочка, оператор нулевого слияния, новые методы массивов и объектов в современных версиях JavaScript.">
+  <title>ES2020+ | Современный JavaScript</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="header__logo" href="index.html" title="На главную">
+      <img class="header__logo-img" src="img/logo.svg" alt="Логотип: JS ES6+" width="40" height="40">
+      <span>Современный JS</span>
+    </a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">☰</button>
+    <nav class="nav" id="main-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="index.html">Главная</a></li>
+          <li class="nav__item"><a class="nav__link" href="variables.html">let и const</a></li>
+          <li class="nav__item"><a class="nav__link" href="arrow-functions.html">Стрелочные функции</a></li>
+          <li class="nav__item"><a class="nav__link" href="destructuring.html">Деструктуризация</a></li>
+          <li class="nav__item"><a class="nav__link" href="template-strings.html">Шаблонные строки</a></li>
+          <li class="nav__item"><a class="nav__link" href="classes.html">Классы</a></li>
+          <li class="nav__item"><a class="nav__link" href="async.html">Промисы и async</a></li>
+          <li class="nav__item"><a class="nav__link" href="modules.html">Модули</a></li>
+          <li class="nav__item"><a class="nav__link nav__link--active" href="es2020.html" aria-current="page">ES2020+</a></li>
+          <li class="nav__item"><a class="nav__link" href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <h1>Полезное из ES2020 и новее</h1>
+      <p>После ES6 язык меняется каждый год. Изменения небольшие, но некоторые из них очень упрощают повседневный код. На этой странице собраны возможности, которые я использую чаще всего.</p>
+
+      <section id="optional">
+        <h2>Опциональная цепочка ?.</h2>
+        <p>Если в цепочке свойств какое-то звено равно <code>null</code> или <code>undefined</code>, обычное обращение выдаст ошибку. Оператор <code>?.</code> в этом случае просто вернёт <code>undefined</code>.</p>
+        <pre><code>const user = { name: 'Вика', address: null };
+
+// console.log(user.address.city); — TypeError
+console.log(user.address?.city);  // undefined
+console.log(user.getAge?.());     // undefined, метода нет — ошибки тоже нет</code></pre>
+      </section>
+
+      <section id="nullish">
+        <h2>Оператор нулевого слияния ??</h2>
+        <p>Оператор <code>??</code> возвращает правое значение, только если левое равно <code>null</code> или <code>undefined</code>. Этим он отличается от <code>||</code>, который срабатывает на любое «ложное» значение, включая <code>0</code> и пустую строку.</p>
+        <pre><code>const count = 0;
+
+console.log(count || 10); // 10 — ноль посчитался «ложным»
+console.log(count ?? 10); // 0  — ноль остался</code></pre>
+        <p>Также есть сокращённые присваивания <code>??=</code>, <code>||=</code> и <code>&amp;&amp;=</code> (ES2021).</p>
+      </section>
+
+      <section id="arrays">
+        <h2>Новые методы массивов</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Полезные методы массивов из новых стандартов</caption>
+            <thead>
+              <tr><th scope="col">Метод</th><th scope="col">Версия</th><th scope="col">Что делает</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row"><code>includes()</code></th><td>ES2016</td><td>Проверяет, есть ли элемент в массиве</td></tr>
+              <tr><th scope="row"><code>flat()</code></th><td>ES2019</td><td>Делает вложенный массив плоским</td></tr>
+              <tr><th scope="row"><code>at()</code></th><td>ES2022</td><td>Берёт элемент по индексу, поддерживает отрицательные: <code>at(-1)</code> — последний</td></tr>
+              <tr><th scope="row"><code>findLast()</code></th><td>ES2023</td><td>Ищет элемент с конца массива</td></tr>
+              <tr><th scope="row"><code>toSorted()</code></th><td>ES2023</td><td>Сортирует, не меняя исходный массив</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <pre><code>const nums = [3, 1, 2];
+
+console.log(nums.includes(2)); // true
+console.log(nums.at(-1));      // 2
+console.log(nums.toSorted());  // [1, 2, 3]
+console.log(nums);             // [3, 1, 2] — исходный не изменился</code></pre>
+      </section>
+
+      <section id="objects">
+        <h2>Работа с объектами</h2>
+        <p>Методы <code>Object.entries()</code> и <code>Object.fromEntries()</code> позволяют превратить объект в массив пар и обратно. Благодаря этому к объекту можно применить методы массивов.</p>
+        <pre><code>const prices = { хлеб: 50, молоко: 90, сыр: 400 };
+
+const expensive = Object.fromEntries(
+  Object.entries(prices).filter(([, price]) =&gt; price &gt; 60)
+);
+
+console.log(expensive); // { молоко: 90, сыр: 400 }</code></pre>
+      </section>
+
+      <section id="numbers">
+        <h2>Числа</h2>
+        <ul>
+          <li>Разделитель разрядов (ES2021): <code>1_000_000</code> читается легче, чем <code>1000000</code>.</li>
+          <li>Тип <code>BigInt</code> (ES2020) для очень больших целых чисел: <code>9007199254740993n</code>.</li>
+          <li>Оператор возведения в степень <code>**</code> (ES2016): <code>2 ** 10</code> равно 1024.</li>
+        </ul>
+        <p class="tip">Следить за новыми предложениями в язык можно в репозитории комитета TC39 на GitHub — там видно, на какой стадии находится каждая идея.</p>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">На этой странице</h2>
+        <ul class="sidebar__list">
+          <li><a href="#optional">Опциональная цепочка ?.</a></li>
+          <li><a href="#nullish">Оператор нулевого слияния ??</a></li>
+          <li><a href="#arrays">Новые методы массивов</a></li>
+          <li><a href="#objects">Работа с объектами</a></li>
+          <li><a href="#numbers">Числа</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Почитать ещё</h2>
+        <ul class="sidebar__list">
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Optional_chaining" target="_blank" rel="noopener">MDN: опциональная цепочка</a></li>
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing" target="_blank" rel="noopener">MDN: оператор ??</a></li>
+          <li><a href="https://github.com/tc39/proposals" target="_blank" rel="noopener">Предложения TC39</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Подписка</h2>
+        <p class="sidebar__text">Раз в неделю присылаем одну полезную фишку JavaScript.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="subscribe-email">E-mail</label>
+          <input class="subscribe__input" type="email" id="subscribe-email" name="email" placeholder="you@mail.ru" required>
+          <button class="subscribe__btn" type="submit">Подписаться</button>
+          <p class="subscribe__result" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <h2 class="footer__title">О проекте</h2>
+      <p class="footer__text">&copy; 2026 Тарасов Евгений, группа 141-ПМо.<br>Учебный сайт, сделан на Water.css.</p>
+    </div>
+    <div>
+      <h2 class="footer__title">Контакты</h2>
+      <ul class="footer__list">
+        <li><a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+        <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">Репозиторий на GitHub</a></li>
+        <li><a href="contacts.html">Форма обратной связи</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">Полезные ссылки</h2>
+      <ul class="footer__list">
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">learn.javascript.ru</a></li>
+        <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
