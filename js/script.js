@@ -26,6 +26,19 @@ if (subscribeForm) {
   });
 }
 
+// ---------- Форма обратной связи ----------
+const feedbackForm = document.querySelector('.form');
+
+if (feedbackForm) {
+  feedbackForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const name = feedbackForm.querySelector('#user-name').value.trim();
+    const result = feedbackForm.querySelector('.form__result');
+    result.textContent = `Спасибо, ${name}! Сообщение принято. Сайт учебный, поэтому данные никуда не отправляются.`;
+    feedbackForm.reset();
+  });
+}
+
 // ---------- Демо шаблонных строк ----------
 const demoButton = document.querySelector('#demo-btn');
 

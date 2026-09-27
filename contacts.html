@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Форма обратной связи, информация об авторе и список источников учебного сайта о современном JavaScript.">
+  <title>Контакты | Современный JavaScript</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="header__logo" href="index.html" title="На главную">
+      <img class="header__logo-img" src="img/logo.svg" alt="Логотип: JS ES6+" width="40" height="40">
+      <span>Современный JS</span>
+    </a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">☰</button>
+    <nav class="nav" id="main-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="index.html">Главная</a></li>
+          <li class="nav__item"><a class="nav__link" href="variables.html">let и const</a></li>
+          <li class="nav__item"><a class="nav__link" href="arrow-functions.html">Стрелочные функции</a></li>
+          <li class="nav__item"><a class="nav__link" href="destructuring.html">Деструктуризация</a></li>
+          <li class="nav__item"><a class="nav__link" href="template-strings.html">Шаблонные строки</a></li>
+          <li class="nav__item"><a class="nav__link" href="classes.html">Классы</a></li>
+          <li class="nav__item"><a class="nav__link" href="async.html">Промисы и async</a></li>
+          <li class="nav__item"><a class="nav__link" href="modules.html">Модули</a></li>
+          <li class="nav__item"><a class="nav__link" href="es2020.html">ES2020+</a></li>
+          <li class="nav__item"><a class="nav__link nav__link--active" href="contacts.html" aria-current="page">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <h1>Контакты и обратная связь</h1>
+      <p>Если вы нашли ошибку в примерах, хотите предложить новую тему или просто задать вопрос — напишите через форму ниже или на почту.</p>
+
+      <section id="feedback">
+        <h2>Написать сообщение</h2>
+        <form class="form" action="#" method="post">
+          <div class="form__field">
+            <label for="user-name">Имя</label>
+            <input type="text" id="user-name" name="name" required>
+          </div>
+          <div class="form__field">
+            <label for="user-email">E-mail</label>
+            <input type="email" id="user-email" name="email" required>
+          </div>
+          <div class="form__field">
+            <label for="user-topic">Тема</label>
+            <select id="user-topic" name="topic">
+              <option value="error">Нашёл ошибку</option>
+              <option value="idea">Предложить тему</option>
+              <option value="question">Вопрос</option>
+              <option value="other">Другое</option>
+            </select>
+          </div>
+          <div class="form__field">
+            <label for="user-message">Сообщение</label>
+            <textarea id="user-message" name="message" rows="5" required></textarea>
+          </div>
+          <div class="form__field">
+            <input type="checkbox" id="user-agree" name="agree" required>
+            <label for="user-agree">Согласен на обработку персональных данных</label>
+          </div>
+          <button type="submit">Отправить</button>
+          <p class="form__result" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section id="author">
+        <h2>Об авторе</h2>
+        <p>Сайт сделал Тарасов Евгений, студент группы 141-ПМо, в рамках учебного проекта по веб-программированию. Задача проекта — закрепить навыки семантической и адаптивной вёрстки с использованием CSS-фреймворка. В качестве фреймворка выбран Water.css.</p>
+        <ul>
+          <li>E-mail: <a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+          <li>GitHub: <a href="https://github.com/Humancreate-bo" target="_blank" rel="noopener">Humancreate-bo</a></li>
+        </ul>
+      </section>
+
+      <section id="sources">
+        <h2>Источники</h2>
+        <p>При подготовке материалов я пользовался следующими ресурсами:</p>
+        <ol>
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN Web Docs</a> — документация по JavaScript.</li>
+          <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">Современный учебник JavaScript</a> (learn.javascript.ru).</li>
+          <li><a href="https://tc39.es/ecma262/" target="_blank" rel="noopener">Спецификация ECMAScript</a> — официальный стандарт языка.</li>
+          <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Документация Water.css</a>.</li>
+        </ol>
+      </section>
+
+      <section id="faq">
+        <h2>Частые вопросы</h2>
+        <h3>Можно ли использовать примеры кода?</h3>
+        <p>Да, все примеры можно свободно копировать и использовать в своих проектах.</p>
+        <h3>Почему нет темы про генераторы и Proxy?</h3>
+        <p>Это более сложные возможности, которые нужны реже. Возможно, я добавлю их позже.</p>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">На этой странице</h2>
+        <ul class="sidebar__list">
+          <li><a href="#feedback">Написать сообщение</a></li>
+          <li><a href="#author">Об авторе</a></li>
+          <li><a href="#sources">Источники</a></li>
+          <li><a href="#faq">Частые вопросы</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Почитать ещё</h2>
+        <ul class="sidebar__list">
+          <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">GitHub-репозиторий сайта</a></li>
+          <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Подписка</h2>
+        <p class="sidebar__text">Раз в неделю присылаем одну полезную фишку JavaScript.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="subscribe-email">E-mail</label>
+          <input class="subscribe__input" type="email" id="subscribe-email" name="email" placeholder="you@mail.ru" required>
+          <button class="subscribe__btn" type="submit">Подписаться</button>
+          <p class="subscribe__result" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <h2 class="footer__title">О проекте</h2>
+      <p class="footer__text">&copy; 2026 Тарасов Евгений, группа 141-ПМо.<br>Учебный сайт, сделан на Water.css.</p>
+    </div>
+    <div>
+      <h2 class="footer__title">Контакты</h2>
+      <ul class="footer__list">
+        <li><a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+        <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">Репозиторий на GitHub</a></li>
+        <li><a href="contacts.html">Форма обратной связи</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">Полезные ссылки</h2>
+      <ul class="footer__list">
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">learn.javascript.ru</a></li>
+        <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
