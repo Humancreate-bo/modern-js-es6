@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ES-модули в JavaScript: именованный экспорт, экспорт по умолчанию, импорт и подключение в браузере.">
+  <title>Модули | Современный JavaScript</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="header__logo" href="index.html" title="На главную">
+      <img class="header__logo-img" src="img/logo.svg" alt="Логотип: JS ES6+" width="40" height="40">
+      <span>Современный JS</span>
+    </a>
+    <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav">☰</button>
+    <nav class="nav" id="main-nav" aria-label="Основное меню">
+      <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="index.html">Главная</a></li>
+          <li class="nav__item"><a class="nav__link" href="variables.html">let и const</a></li>
+          <li class="nav__item"><a class="nav__link" href="arrow-functions.html">Стрелочные функции</a></li>
+          <li class="nav__item"><a class="nav__link" href="destructuring.html">Деструктуризация</a></li>
+          <li class="nav__item"><a class="nav__link" href="template-strings.html">Шаблонные строки</a></li>
+          <li class="nav__item"><a class="nav__link" href="classes.html">Классы</a></li>
+          <li class="nav__item"><a class="nav__link" href="async.html">Промисы и async</a></li>
+          <li class="nav__item"><a class="nav__link nav__link--active" href="modules.html" aria-current="page">Модули</a></li>
+          <li class="nav__item"><a class="nav__link" href="es2020.html">ES2020+</a></li>
+          <li class="nav__item"><a class="nav__link" href="contacts.html">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <h1>Модули: import и export</h1>
+      <p>Когда программа растёт, держать весь код в одном файле неудобно. Модули позволяют разбить код на отдельные файлы и явно указать, что каждый файл отдаёт наружу и что берёт из других.</p>
+
+      <section id="why">
+        <h2>Зачем нужны модули</h2>
+        <p>Раньше в браузере все скрипты подключались через несколько тегов <code>script</code> и делили общую глобальную область видимости. Если в двух файлах была переменная с одинаковым именем, одна затирала другую. Также приходилось следить за порядком подключения файлов.</p>
+        <p>У модуля своя область видимости: всё, что в нём объявлено, по умолчанию недоступно снаружи. Наружу попадает только то, что явно экспортировано.</p>
+      </section>
+
+      <section id="export">
+        <h2>Экспорт</h2>
+        <p>Именованный экспорт — перед объявлением пишется <code>export</code>. Из одного файла можно экспортировать сколько угодно значений.</p>
+        <pre><code>// файл math.js
+export const PI = 3.14159;
+
+export function circleArea(r) {
+  return PI * r * r;
+}
+
+export const square = x =&gt; x * x;</code></pre>
+      </section>
+
+      <section id="import">
+        <h2>Импорт</h2>
+        <p>В другом файле нужные значения импортируются по именам в фигурных скобках. Путь к файлу пишется с расширением.</p>
+        <pre><code>// файл main.js
+import { circleArea, square } from './math.js';
+
+console.log(circleArea(2)); // 12.56636
+console.log(square(5));     // 25
+
+// можно переименовать при импорте
+import { PI as piNumber } from './math.js';
+
+// или импортировать всё сразу как объект
+import * as math from './math.js';
+console.log(math.square(3)); // 9</code></pre>
+      </section>
+
+      <section id="default">
+        <h2>Экспорт по умолчанию</h2>
+        <p>Если файл отдаёт что-то одно главное (например, класс), используют <code>export default</code>. При импорте имя можно выбрать любое, и фигурные скобки не нужны.</p>
+        <pre><code>// файл User.js
+export default class User {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+// файл app.js
+import User from './User.js';
+const u = new User('Лена');</code></pre>
+        <p class="tip">Во многих командах договариваются использовать только именованный экспорт: так редактор кода лучше подсказывает имена, а при переименовании меньше путаницы.</p>
+      </section>
+
+      <section id="browser">
+        <h2>Модули в браузере</h2>
+        <p>Чтобы браузер понял, что файл — модуль, в тег скрипта добавляют атрибут <code>type="module"</code>:</p>
+        <pre><code>&lt;script type="module" src="js/main.js"&gt;&lt;/script&gt;</code></pre>
+        <ul>
+          <li>Модули всегда работают в строгом режиме.</li>
+          <li>Модульный скрипт загружается отложенно, как с атрибутом <code>defer</code>.</li>
+          <li>Модули не работают при открытии HTML-файла напрямую с диска (через <code>file://</code>) — нужен локальный сервер, например расширение Live Server в VS Code.</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <aside class="sidebar">
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">На этой странице</h2>
+        <ul class="sidebar__list">
+          <li><a href="#why">Зачем нужны модули</a></li>
+          <li><a href="#export">Экспорт</a></li>
+          <li><a href="#import">Импорт</a></li>
+          <li><a href="#default">Экспорт по умолчанию</a></li>
+          <li><a href="#browser">Модули в браузере</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Почитать ещё</h2>
+        <ul class="sidebar__list">
+          <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Modules" target="_blank" rel="noopener">MDN: модули</a></li>
+          <li><a href="https://learn.javascript.ru/modules-intro" target="_blank" rel="noopener">learn.javascript.ru: модули</a></li>
+        </ul>
+      </section>
+      <section class="sidebar__block">
+        <h2 class="sidebar__title">Подписка</h2>
+        <p class="sidebar__text">Раз в неделю присылаем одну полезную фишку JavaScript.</p>
+        <form class="subscribe" action="#" method="post">
+          <label for="subscribe-email">E-mail</label>
+          <input class="subscribe__input" type="email" id="subscribe-email" name="email" placeholder="you@mail.ru" required>
+          <button class="subscribe__btn" type="submit">Подписаться</button>
+          <p class="subscribe__result" aria-live="polite"></p>
+        </form>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <h2 class="footer__title">О проекте</h2>
+      <p class="footer__text">&copy; 2026 Тарасов Евгений, группа 141-ПМо.<br>Учебный сайт, сделан на Water.css.</p>
+    </div>
+    <div>
+      <h2 class="footer__title">Контакты</h2>
+      <ul class="footer__list">
+        <li><a href="mailto:vertommy80@gmail.com">vertommy80@gmail.com</a></li>
+        <li><a href="https://github.com/Humancreate-bo/modern-js-es6" target="_blank" rel="noopener">Репозиторий на GitHub</a></li>
+        <li><a href="contacts.html">Форма обратной связи</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__title">Полезные ссылки</h2>
+      <ul class="footer__list">
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript" target="_blank" rel="noopener">MDN: JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/" target="_blank" rel="noopener">learn.javascript.ru</a></li>
+        <li><a href="https://watercss.kognise.dev/" target="_blank" rel="noopener">Water.css</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
